@@ -43,19 +43,19 @@ const PostEval: React.FC<PostEvalProps> = ({ onDataChange, initialData }) => {
       {/* Preferred Technique */}
       <FormControl component="fieldset" sx={{ mb: 3 }}>
         <FormLabel component="legend">
-          Which technique would you prefer to use in the future?
+          Which technique did you prefer overall?
         </FormLabel>
         <RadioGroup
           value={initialData.preferredTechnique}
           onChange={handleChange('preferredTechnique')}
         >
           <FormControlLabel value="freehand" control={<Radio />} label="Freehand" />
-          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane Guide" />
-          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane Guide" />
+          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane needle guide" />
+          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane needle guide" />
         </RadioGroup>
         <TextField
           fullWidth
-          label="Reason for preference (optional)"
+          label="Optional: Why?"
           value={initialData.preferredTechniqueReason}
           onChange={handleChange('preferredTechniqueReason')}
           margin="normal"
@@ -67,19 +67,19 @@ const PostEval: React.FC<PostEvalProps> = ({ onDataChange, initialData }) => {
       {/* Most Accurate Technique */}
       <FormControl component="fieldset" sx={{ mb: 3 }}>
         <FormLabel component="legend">
-          Which technique do you think was most accurate in targeting?
+          With which technique do you feel you were most accurate in targeting the posterior calyx?
         </FormLabel>
         <RadioGroup
           value={initialData.mostAccurateTechnique}
           onChange={handleChange('mostAccurateTechnique')}
         >
           <FormControlLabel value="freehand" control={<Radio />} label="Freehand" />
-          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane Guide" />
-          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane Guide" />
+          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane needle guide" />
+          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane needle Guide" />
         </RadioGroup>
         <TextField
           fullWidth
-          label="Reason for accuracy assessment (optional)"
+          label="Optional: Why?"
           value={initialData.mostAccurateReason}
           onChange={handleChange('mostAccurateReason')}
           margin="normal"
@@ -91,19 +91,19 @@ const PostEval: React.FC<PostEvalProps> = ({ onDataChange, initialData }) => {
       {/* Clinical Choice */}
       <FormControl component="fieldset" sx={{ mb: 3 }}>
         <FormLabel component="legend">
-          Which technique would you choose for clinical cases?
+          Which technique would you choose for a real clinical case, and why?
         </FormLabel>
         <RadioGroup
           value={initialData.clinicalChoice}
           onChange={handleChange('clinicalChoice')}
         >
           <FormControlLabel value="freehand" control={<Radio />} label="Freehand" />
-          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane Guide" />
-          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane Guide" />
+          <FormControlLabel value="inPlaneGuide" control={<Radio />} label="In-plane needle guide" />
+          <FormControlLabel value="outOfPlaneGuide" control={<Radio />} label="Out-of-plane needle guide" />
         </RadioGroup>
         <TextField
           fullWidth
-          label="Reason for clinical choice (optional)"
+          label="Optional: Why?"
           value={initialData.clinicalChoiceReason}
           onChange={handleChange('clinicalChoiceReason')}
           margin="normal"
