@@ -9,49 +9,47 @@ function doPost(e) {
 
     // Log the parsed data
     Logger.log("Parsed data:", data);
+    Logger.log("Demographics:", data.demographics);
+    Logger.log("NASA-TLX:", data.nasaTlx);
+    Logger.log("Post-Eval:", data.postEval);
 
     // Flatten the data structure
     const row = [
       data.timestamp, // timestamp
-      data.demographics.name,
-      data.demographics.specialty,
-      data.demographics.otherSpecialty,
-      data.demographics.trainingStatus,
-      data.demographics.otherTrainingStatus,
-      data.demographics.experience,
-      data.demographics.used3DSlicer,
-      data.demographics.slicerFamiliarity,
-      // SUS questions
-      data.sus.q1 || "",
-      data.sus.q2 || "",
-      data.sus.q3 || "",
-      data.sus.q4 || "",
-      data.sus.q5 || "",
-      data.sus.q6 || "",
-      data.sus.q7 || "",
-      data.sus.q8 || "",
-      data.sus.q9 || "",
-      data.sus.q10 || "",
-      // NASA-TLX without depth guide
-      data.nasaTlx.withoutDepthGuide[0] || 0,
-      data.nasaTlx.withoutDepthGuide[1] || 0,
-      data.nasaTlx.withoutDepthGuide[2] || 0,
-      data.nasaTlx.withoutDepthGuide[3] || 0,
-      data.nasaTlx.withoutDepthGuide[4] || 0,
-      data.nasaTlx.withoutDepthGuide[5] || 0,
-      // NASA-TLX with depth guide
-      data.nasaTlx.withDepthGuide[0] || 0,
-      data.nasaTlx.withDepthGuide[1] || 0,
-      data.nasaTlx.withDepthGuide[2] || 0,
-      data.nasaTlx.withDepthGuide[3] || 0,
-      data.nasaTlx.withDepthGuide[4] || 0,
-      data.nasaTlx.withDepthGuide[5] || 0,
-      // Depth Guide feedback
-      data.depthGuide.usefulness || 0,
-      data.depthGuide.helpWithBLines || "",
-      data.depthGuide.moreVariationWithout || "",
-      data.depthGuide.shouldBeIncluded || "",
-      data.depthGuide.additionalFeedback || "",
+      // Demographics
+      data.demographics.initials,
+      data.demographics.trainingLevel,
+      data.demographics.otherTrainingLevel || "",
+      data.demographics.ultrasoundExperience,
+      data.demographics.needlePlacements,
+      // NASA-TLX Freehand
+      data.nasaTlx.freehand.mentalDemand,
+      data.nasaTlx.freehand.physicalDemand,
+      data.nasaTlx.freehand.temporalDemand,
+      data.nasaTlx.freehand.performance,
+      data.nasaTlx.freehand.effort,
+      data.nasaTlx.freehand.frustration,
+      // NASA-TLX In-Plane Guide
+      data.nasaTlx.inPlaneGuide.mentalDemand,
+      data.nasaTlx.inPlaneGuide.physicalDemand,
+      data.nasaTlx.inPlaneGuide.temporalDemand,
+      data.nasaTlx.inPlaneGuide.performance,
+      data.nasaTlx.inPlaneGuide.effort,
+      data.nasaTlx.inPlaneGuide.frustration,
+      // NASA-TLX Out-of-Plane Guide
+      data.nasaTlx.outOfPlaneGuide.mentalDemand,
+      data.nasaTlx.outOfPlaneGuide.physicalDemand,
+      data.nasaTlx.outOfPlaneGuide.temporalDemand,
+      data.nasaTlx.outOfPlaneGuide.performance,
+      data.nasaTlx.outOfPlaneGuide.effort,
+      data.nasaTlx.outOfPlaneGuide.frustration,
+      // Post-Evaluation
+      data.postEval.preferredTechnique,
+      data.postEval.preferredTechniqueReason,
+      data.postEval.mostAccurateTechnique,
+      data.postEval.mostAccurateReason,
+      data.postEval.clinicalChoice,
+      data.postEval.clinicalChoiceReason,
     ];
 
     // Add the row to the sheet

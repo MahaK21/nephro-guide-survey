@@ -4,21 +4,19 @@ import {
   Typography,
   TextField,
   FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Slider,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+  Paper,
+  Stack,
 } from '@mui/material';
 
 interface DemographicsData {
   initials: string;
-  specialty: string;
-  otherSpecialty: string;
-  trainingStatus: string;
-  otherTrainingStatus: string;
-  experience: string;
-  used3DSlicer: string;
-  slicerFamiliarity: number;
+  trainingLevel: string;
+  otherTrainingLevel?: string;
+  ultrasoundExperience: string;
+  needlePlacements: string;
 }
 
 interface DemographicsProps {
@@ -33,25 +31,17 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
     onDataChange(formData);
   }, [formData, onDataChange]);
 
-  const handleChange = (field: string) => (event: any) => {
+  const handleChange = (field: string) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
       ...prev,
       [field]: event.target.value,
     }));
   };
 
-  const handleSliderChange = (_: Event, newValue: number | number[]) => {
-    const rawValue = Array.isArray(newValue) ? newValue[0] : newValue;
-    setFormData(prev => ({
-      ...prev,
-      slicerFamiliarity: rawValue + 1, // Convert 0-4 to 1-5
-    }));
-  };
-
   return (
     <Box>
       <Typography variant="h5" gutterBottom>
-        Section 1: Participant Background
+        Participant Demographics & Experience
       </Typography>
 
       <TextField
@@ -59,133 +49,95 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
         label="Initials"
         value={formData.initials}
         onChange={handleChange('initials')}
-        sx={{ mb: 3 }}
+        sx={{ mb: 4 }}
         required
       />
 
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel>1. What is your clinical specialty?</InputLabel>
-        <Select
-          value={formData.specialty}
-          label="1. What is your clinical specialty?"
-          onChange={handleChange('specialty')}
-          required
-        >
-          <MenuItem value="Radiology">Radiology</MenuItem>
-          <MenuItem value="Cardiology">Cardiology</MenuItem>
-          <MenuItem value="Emergency Medicine">Emergency Medicine</MenuItem>
-          <MenuItem value="Other">Other</MenuItem>
-        </Select>
-      </FormControl>
+      <Paper elevation={0} sx={{ p: 3, mb: 4, bgcolor: 'background.default' }}>
+        <Typography variant="subtitle1" gutterBottom fontWeight="medium">
+          Training Level
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            value={formData.trainingLevel}
+            onChange={handleChange('trainingLevel')}
+          >
+            <Stack spacing={2}>
+              <Stack direction="row" spacing={2}>
+                <FormControlLabel value="MS1" control={<Radio />} label="MS1" />
+                <FormControlLabel value="MS2" control={<Radio />} label="MS2" />
+                <FormControlLabel value="MS3" control={<Radio />} label="MS3" />
+                <FormControlLabel value="MS4" control={<Radio />} label="MS4" />
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <FormControlLabel value="PGY-1" control={<Radio />} label="PGY-1" />
+                <FormControlLabel value="PGY-2" control={<Radio />} label="PGY-2" />
+                <FormControlLabel value="PGY-3" control={<Radio />} label="PGY-3" />
+                <FormControlLabel value="PGY-4" control={<Radio />} label="PGY-4" />
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <FormControlLabel value="Fellowship-1" control={<Radio />} label="Fellowship-1" />
+                <FormControlLabel value="Fellowship-2" control={<Radio />} label="Fellowship-2" />
+              </Stack>
+              <Stack direction="row" spacing={2}>
+                <FormControlLabel value="Attending Surgeon" control={<Radio />} label="Attending Surgeon" />
+                <FormControlLabel value="MD, research/industry role" control={<Radio />} label="MD, research/industry role" />
+              </Stack>
+              <FormControlLabel value="Other" control={<Radio />} label="Other" />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+        {formData.trainingLevel === 'Other' && (
+          <TextField
+            fullWidth
+            label="Please specify"
+            value={formData.otherTrainingLevel || ''}
+            onChange={handleChange('otherTrainingLevel')}
+            sx={{ mt: 2 }}
+            required
+          />
+        )}
+      </Paper>
 
-      {formData.specialty === 'Other' && (
-        <TextField
-          fullWidth
-          label="Please specify your specialty"
-          value={formData.otherSpecialty}
-          onChange={handleChange('otherSpecialty')}
-          sx={{ mb: 3 }}
-          required
-        />
-      )}
+      <Paper elevation={0} sx={{ p: 3, mb: 4, bgcolor: 'background.default' }}>
+        <Typography variant="subtitle1" gutterBottom fontWeight="medium">
+          Years of Experience with Ultrasound
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            value={formData.ultrasoundExperience}
+            onChange={handleChange('ultrasoundExperience')}
+          >
+            <Stack direction="row" spacing={2}>
+              <FormControlLabel value="None" control={<Radio />} label="None" />
+              <FormControlLabel value="<1 year" control={<Radio />} label={"<1 year"} />
+              <FormControlLabel value="1–2 years" control={<Radio />} label="1–2 years" />
+              <FormControlLabel value="3–5 years" control={<Radio />} label="3–5 years" />
+              <FormControlLabel value=">5 years" control={<Radio />} label={">5 years"} />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+      </Paper>
 
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel>Training Status</InputLabel>
-        <Select
-          value={formData.trainingStatus}
-          label="Training Status"
-          onChange={handleChange('trainingStatus')}
-          required
-        >
-          <MenuItem value="Medical Student">Medical Student</MenuItem>
-          <MenuItem value="Resident">Resident</MenuItem>
-          <MenuItem value="Fellow">Fellow</MenuItem>
-          <MenuItem value="Attending">Attending</MenuItem>
-          <MenuItem value="Other">Other</MenuItem>
-        </Select>
-      </FormControl>
-
-      {formData.trainingStatus === 'Other' && (
-        <TextField
-          fullWidth
-          label="Please specify your training status"
-          value={formData.otherTrainingStatus}
-          onChange={handleChange('otherTrainingStatus')}
-          sx={{ mb: 3 }}
-          required
-        />
-      )}
-
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel>2. How much experience do you have with lung ultrasound?</InputLabel>
-        <Select
-          value={formData.experience}
-          label="2. How much experience do you have with lung ultrasound?"
-          onChange={handleChange('experience')}
-          required
-        >
-          <MenuItem value="not_familiar">Not familiar at all</MenuItem>
-          <MenuItem value="minimal">Very minimal/introductory or somewhat familiar</MenuItem>
-          <MenuItem value="familiar">Very familiar (regular exposure)</MenuItem>
-        </Select>
-      </FormControl>
-
-      <FormControl fullWidth sx={{ mb: 3 }}>
-        <InputLabel>3. Have you used 3D Slicer or similar annotation tools before?</InputLabel>
-        <Select
-          value={formData.used3DSlicer}
-          label="3. Have you used 3D Slicer or similar annotation tools before?"
-          onChange={handleChange('used3DSlicer')}
-          required
-        >
-          <MenuItem value="yes">Yes</MenuItem>
-          <MenuItem value="no">No</MenuItem>
-        </Select>
-      </FormControl>
-
-      {formData.used3DSlicer === 'yes' && (
-        <Box sx={{ mb: 3 }}>
-          <Typography id="slicer-familiarity-slider" gutterBottom>
-            4. How familiar were you with the 3D Slicer software before participating in this study?
-          </Typography>
-          <Box sx={{ px: 2 }}>
-            <Slider
-              value={formData.slicerFamiliarity - 1} // Convert 1-5 to 0-4 for display
-              onChange={handleSliderChange}
-              aria-labelledby="slicer-familiarity-slider"
-              valueLabelDisplay="auto"
-              step={1}
-              marks={[
-                { value: 0, label: 'Not Familiar' },
-                { value: 1, label: 'Slightly Familiar' },
-                { value: 2, label: 'Moderately Familiar' },
-                { value: 3, label: 'Very Familiar' },
-                { value: 4, label: 'Extremely Familiar' },
-              ]}
-              min={0}
-              max={4}
-              sx={{
-                '& .MuiSlider-markLabel': {
-                  fontSize: '0.75rem',
-                  transform: 'translateX(-50%)',
-                  whiteSpace: 'nowrap',
-                },
-                '& .MuiSlider-markLabel[data-index="0"]': {
-                  transform: 'translateX(0)',
-                },
-                '& .MuiSlider-markLabel[data-index="4"]': {
-                  transform: 'translateX(-100%)',
-                },
-                '& .MuiSlider-mark': {
-                  width: '2px',
-                  height: '8px',
-                  backgroundColor: 'currentColor',
-                },
-              }}
-            />
-          </Box>
-        </Box>
-      )}
+      <Paper elevation={0} sx={{ p: 3, mb: 4, bgcolor: 'background.default' }}>
+        <Typography variant="subtitle1" gutterBottom fontWeight="medium">
+          Estimated Number of Ultrasound-Guided Needle Placements Performed
+        </Typography>
+        <FormControl component="fieldset">
+          <RadioGroup
+            value={formData.needlePlacements}
+            onChange={handleChange('needlePlacements')}
+          >
+            <Stack direction="row" spacing={2}>
+              <FormControlLabel value="None" control={<Radio />} label="None" />
+              <FormControlLabel value="1–10" control={<Radio />} label="1–10" />
+              <FormControlLabel value="11–50" control={<Radio />} label="11–50" />
+              <FormControlLabel value="51–100" control={<Radio />} label="51–100" />
+              <FormControlLabel value=">100" control={<Radio />} label={">100"} />
+            </Stack>
+          </RadioGroup>
+        </FormControl>
+      </Paper>
     </Box>
   );
 };

@@ -10,12 +10,11 @@ import {
   CircularProgress,
 } from '@mui/material';
 import Demographics from './sections/Demographics';
-import SystemUsabilityScale from './sections/SystemUsabilityScale';
 import NasaTLX from './sections/NasaTLX';
-import DepthGuide from './sections/DepthGuide';
+import PostEval from './sections/PostEval';
 import { submitToGoogleSheets } from '../services/googleSheets';
 
-const steps = ['Demographics', 'System Usability Scale', 'NASA-TLX', 'Depth Guide'];
+const steps = ['Demographics', 'NASA-TLX', 'Post-Session Evaluation'];
 
 const Survey: React.FC = () => {
   const [activeStep, setActiveStep] = useState(0);
@@ -24,25 +23,43 @@ const Survey: React.FC = () => {
   const [formData, setFormData] = useState({
     demographics: {
       initials: '',
-      specialty: '',
-      otherSpecialty: '',
-      trainingStatus: '',
-      otherTrainingStatus: '',
-      experience: '',
-      used3DSlicer: '',
-      slicerFamiliarity: 0,
+      trainingLevel: '',
+      ultrasoundExperience: '',
+      needlePlacements: '',
     },
-    sus: {},
     nasaTlx: {
-      withDepthGuide: Array(6).fill(0),
-      withoutDepthGuide: Array(6).fill(0),
+      freehand: {
+        mentalDemand: 0,
+        physicalDemand: 0,
+        temporalDemand: 0,
+        performance: 0,
+        effort: 0,
+        frustration: 0,
+      },
+      inPlaneGuide: {
+        mentalDemand: 0,
+        physicalDemand: 0,
+        temporalDemand: 0,
+        performance: 0,
+        effort: 0,
+        frustration: 0,
+      },
+      outOfPlaneGuide: {
+        mentalDemand: 0,
+        physicalDemand: 0,
+        temporalDemand: 0,
+        performance: 0,
+        effort: 0,
+        frustration: 0,
+      },
     },
-    depthGuide: {
-      usefulness: 0,
-      helpWithBLines: '',
-      moreVariationWithout: '',
-      shouldBeIncluded: '',
-      additionalFeedback: '',
+    postEval: {
+      preferredTechnique: '',
+      preferredTechniqueReason: '',
+      mostAccurateTechnique: '',
+      mostAccurateReason: '',
+      clinicalChoice: '',
+      clinicalChoiceReason: '',
     },
   });
 
@@ -61,21 +78,16 @@ const Survey: React.FC = () => {
     }));
   }, []);
 
-  // Memoize section change handlers
   const handleDemographicsChange = useCallback((data: unknown) => {
     handleDataChange('demographics', data);
-  }, [handleDataChange]);
-
-  const handleSusChange = useCallback((data: unknown) => {
-    handleDataChange('sus', data);
   }, [handleDataChange]);
 
   const handleNasaTlxChange = useCallback((data: unknown) => {
     handleDataChange('nasaTlx', data);
   }, [handleDataChange]);
 
-  const handleDepthGuideChange = useCallback((data: unknown) => {
-    handleDataChange('depthGuide', data);
+  const handlePostEvalChange = useCallback((data: unknown) => {
+    handleDataChange('postEval', data);
   }, [handleDataChange]);
 
   const handleSubmit = async () => {
@@ -83,9 +95,8 @@ const Survey: React.FC = () => {
       setIsSubmitting(true);
       await submitToGoogleSheets({
         demographics: formData.demographics,
-        sus: formData.sus,
         nasaTlx: formData.nasaTlx,
-        depthGuide: formData.depthGuide,
+        postEval: formData.postEval,
         timestamp: new Date().toISOString(),
       });
       setIsSubmitted(true);
@@ -107,19 +118,14 @@ const Survey: React.FC = () => {
           initialData={formData.demographics}
         />;
       case 1:
-        return <SystemUsabilityScale 
-          onDataChange={handleSusChange} 
-          initialData={formData.sus}
-        />;
-      case 2:
         return <NasaTLX 
           onDataChange={handleNasaTlxChange} 
           initialData={formData.nasaTlx}
         />;
-      case 3:
-        return <DepthGuide 
-          onDataChange={handleDepthGuideChange} 
-          initialData={formData.depthGuide}
+      case 2:
+        return <PostEval 
+          onDataChange={handlePostEvalChange} 
+          initialData={formData.postEval}
         />;
       default:
         return null;
@@ -129,19 +135,16 @@ const Survey: React.FC = () => {
   return (
     <Box sx={{ width: '100%', maxWidth: 800, mx: 'auto', p: 3 }}>
       <Paper elevation={3} sx={{ p: 4, mb: 4 }}>
-        {/* Introduction Block */}
         <Box sx={{ mb: 4 }}>
           <Typography variant="h4" gutterBottom align="center">
-            User Survey
+            Nephrostomy Needle Guidance Study
           </Typography>
         </Box>
-        {/* Show description only on first page */}
         {activeStep === 0 && (
           <Typography variant="body1" gutterBottom align="center" sx={{ mb: 4 }}>
-            This study is evaluating the usability of a new tool for annotating lung ultrasound images. Please answer the following questions based on your experience.
+            This study investigates whether low-cost needle guidance systems improve performance in ultrasound-guided needle placement for nephrostomy procedures, compared to conventional freehand techniques.
           </Typography>
         )}
-        {/* End Introduction Block */}
         <Stepper activeStep={activeStep} alternativeLabel>
           {steps.map((label) => (
             <Step key={label}>

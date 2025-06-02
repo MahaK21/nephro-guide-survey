@@ -1,89 +1,84 @@
-# Lung Ultrasound Annotation Tool Survey
+# Nephrostomy Needle Guidance Study Survey
 
-A React-based survey application designed to evaluate the usability and effectiveness of a lung ultrasound annotation tool, specifically focusing on the impact of a depth guide feature.
+This repository contains a web-based survey tool for the research study:
 
-## Project Overview
+**"Evaluating Needle Guidance in Simulated Nephrostomy: A Comparison of Freehand and Low-Cost Guidance Techniques"**
 
-This survey was created to gather user feedback on a lung ultrasound annotation tool, with particular emphasis on:
+## Study Overview
 
-- User demographics and experience with similar tools
-- System usability assessment using the System Usability Scale (SUS)
-- Workload assessment using NASA-TLX
-- Specific feedback on the depth guide feature
+This study investigates whether low-cost needle guidance systems improve performance in ultrasound-guided needle placement for nephrostomy procedures, compared to conventional freehand techniques.
 
-## Technical Implementation
+### Study Protocol
 
-### Frontend
+- Participants perform simulated nephrostomy needle placements using three techniques:
+  1. Freehand
+  2. In-plane needle guide
+  3. Out-of-plane needle guide
+- Each participant completes a series of tasks and then fills out this survey.
 
-- Built with React and TypeScript
-- Uses Material-UI for a modern, responsive design
-- Implements a multi-step form with data persistence
-- Features:
-  - Demographics section
-  - System Usability Scale (SUS) assessment
-  - NASA-TLX workload assessment
-  - Depth guide feedback section
+### Survey Structure
 
-### Data Collection
+The survey collects:
 
-- Responses are stored in Google Sheets
-- Uses Google Apps Script for serverless backend
-- Implements CORS handling for secure data submission
+- **Demographics & Experience:**
+  - Initials (for anonymized tracking)
+  - Training level
+  - Years of experience with ultrasound
+  - Estimated number of ultrasound-guided needle placements performed
+- **NASA-TLX Task Load Index:**
+  - Workload assessment for each technique (mental, physical, temporal demand, performance, effort, frustration)
+- **Post-Session Evaluation:**
+  - Preferred technique for future use (with optional reasoning)
+  - Technique perceived as most accurate (with optional reasoning)
+  - Technique chosen for clinical cases (with optional reasoning)
 
-### Google Apps Script Setup
+### Data Handling
 
-1. Create a new Google Sheet
-2. Go to Extensions > Apps Script
-3. Copy the contents of `google-apps-script/Code.gs` into the script editor
-4. Deploy as a web app:
-   - Execute as: "Me"
-   - Who has access: "Anyone"
-5. Copy the deployment URL and update it in `src/services/googleSheets.ts`
+Survey responses are submitted to a secure Google Sheet for analysis. No personally identifying information is collected beyond participant initials.
 
-## Development
+## Running the Survey App
 
-```bash
-# Install dependencies
-npm install
+### Prerequisites
 
-# Start development server
-npm start
+- [Node.js](https://nodejs.org/) (v14 or higher recommended)
+- npm (comes with Node.js)
 
-# Build for production
+### Setup
+
+1. **Install dependencies:**
+   ```sh
+   npm install
+   ```
+2. **Configure Google Sheets endpoint:**
+   - Set the Google Sheets script URL in the code (see `src/services/googleSheets.ts`).
+   - No authentication is required for the survey app itself.
+3. **Start the development server:**
+   ```sh
+   npm start
+   ```
+   The app will be available at [http://localhost:3000](http://localhost:3000).
+
+### Build for Production
+
+```sh
 npm run build
 ```
 
-## Project Structure
+## Repository Structure
 
-```
-survey-website/
-├── src/
-│   ├── components/
-│   │   ├── sections/
-│   │   │   ├── Demographics.tsx
-│   │   │   ├── SystemUsabilityScale.tsx
-│   │   │   ├── NasaTLX.tsx
-│   │   │   └── DepthGuide.tsx
-│   │   └── Survey.tsx
-│   └── services/
-│       └── googleSheets.ts
-└── google-apps-script/
-    └── Code.gs
-```
+- `src/components/Survey.tsx` — Main survey flow
+- `src/components/sections/Demographics.tsx` — Demographics & experience questions
+- `src/components/sections/NasaTLX.tsx` — NASA-TLX workload assessment
+- `src/components/sections/PostEval.tsx` — Post-session evaluation questions
+- `src/services/googleSheets.ts` — Handles survey submission to Google Sheets
 
-## Features
+## Contact
 
-- Multi-section survey form with progress tracking
-- Data persistence between sections
-- Responsive design for all screen sizes
-- Real-time data submission to Google Sheets
-- Error handling and user feedback
-- Clean, professional UI with Material-UI components
+For questions about this study or the survey tool, contact:
 
-## Future Improvements
+- **Principal Investigator:** [Add Name/Email]
+- **Developer:** MahaK21 (GitHub)
 
-- Add data validation
-- Implement survey completion tracking
-- Add analytics dashboard
-- Support for multiple languages
-- Export functionality for survey results
+---
+
+_This project is for research purposes only. Please do not use for clinical decision-making._
