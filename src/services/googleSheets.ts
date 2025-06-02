@@ -1,5 +1,5 @@
 interface DemographicsData {
-  initials: string;
+  participantId: string;
   trainingLevel: string;
   ultrasoundExperience: string;
   needlePlacements: string;
@@ -53,7 +53,7 @@ export const submitToGoogleSheets = async (data: SurveyResponse) => {
   try {
     console.log('Submitting survey data:', data);
     
-    const response = await fetch("https://script.google.com/macros/s/AKfycbw9C4sBDT1UfyitTXxqaNY3shFTKlbUS8BTZpiRMFUVjaS0a574G6O7ByDiQ8QtMtyN/exec", {
+    const response = await fetch("https://script.google.com/macros/s/AKfycbzlayGkQipUcnoXaKXm1gqRg-toFVQgKAzuEj8w6Rt8oYnRku9D34SyGrU496I0a6zQ/exec", {
       method: 'POST',
       mode: 'no-cors',
       headers: {

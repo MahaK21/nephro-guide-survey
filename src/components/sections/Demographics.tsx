@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 
 interface DemographicsData {
-  initials: string;
+  participantId: string;
   trainingLevel: string;
   otherTrainingLevel?: string;
   ultrasoundExperience: string;
@@ -46,9 +46,9 @@ const Demographics: React.FC<DemographicsProps> = ({ onDataChange, initialData }
 
       <TextField
         fullWidth
-        label="Initials"
-        value={formData.initials}
-        onChange={handleChange('initials')}
+        label="Participant ID"
+        value={formData.participantId}
+        onChange={handleChange('participantId')}
         sx={{ mb: 4 }}
         required
       />

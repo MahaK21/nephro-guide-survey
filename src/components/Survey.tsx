@@ -22,7 +22,7 @@ const Survey: React.FC = () => {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState({
     demographics: {
-      initials: '',
+      participantId: '',
       trainingLevel: '',
       ultrasoundExperience: '',
       needlePlacements: '',

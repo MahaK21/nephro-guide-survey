@@ -17,7 +17,7 @@ function doPost(e) {
     const row = [
       data.timestamp, // timestamp
       // Demographics
-      data.demographics.initials,
+      data.demographics.participantId,
       data.demographics.trainingLevel,
       data.demographics.otherTrainingLevel || "",
       data.demographics.ultrasoundExperience,
