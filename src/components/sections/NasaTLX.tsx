@@ -67,8 +67,8 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
     },
     { 
       name: 'Physical Demand', 
-      mainQuestion: 'How much interaction (clicking or adjusting) did the task require?',
-      subQuestion: 'Did you need to make repeated changes or perform a lot of manual adjustments?',
+      mainQuestion: 'How physically demanding was the task?',
+      subQuestion: 'Did you need to make repeated needle redirections or reinsertions?',
       minLabel: 'Very Low',
       maxLabel: 'Very High',
       metric: 'physicalDemand' as const
@@ -84,7 +84,7 @@ const NasaTLX: React.FC<NasaTLXProps> = ({ onDataChange, initialData }) => {
     { 
       name: 'Performance', 
       mainQuestion: 'How successful were you in accomplishing what you were asked to do?',
-      subQuestion: 'How happy are you with how you performed? Did it feel accurate and correct? Did you achieve the annotations as you intended?',
+      subQuestion: 'How happy are you with how you performed? Did it feel accurate and correct?s',
       minLabel: 'Very Poor Performance',
       maxLabel: 'Excellent Performance',
       metric: 'performance' as const
